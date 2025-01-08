@@ -57,12 +57,27 @@ def transform_klines(df):
     df = df[cols]
     return df
 
+def create_target(df):
+    """
+    """
+    df['target_up'] = (df['Close_price'].shift(+1) < df['Close_price']).astype(int)
+    return df
+
+def indicator_rsi(df, period=14):
+    """
+    Calcul le rsi pour df
+    """
+    delta = df['Close_price'].diff()
+    print(delta)
+
+
 
 def main():
     """
     """
     df = klines_to_raw_df()
     df = transform_klines(df)
-    save_df_csv(df, 'transform_data')
+    df = create_target(df)
+    indicator_rsi(df, period=14)
 
 main()
