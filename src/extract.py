@@ -52,6 +52,7 @@ def transform_klines(df):
     """
     """
     df['date_utc'] = pd.to_datetime(df['Open_time'], unit='ms', utc=True)
+    df[df.select_dtypes(include=['object']).columns] = df.select_dtypes(include=['object']).apply(pd.to_numeric, errors='coerce')
     #La date en premier
     cols = ['date_utc'] + [col for col in df.columns if col != 'date_utc']
     df = df[cols]
@@ -68,9 +69,18 @@ def indicator_rsi(df, period=14):
     Calcul le rsi pour df
     """
     delta = df['Close_price'].diff()
-    print(delta)
+    up, down = delta.clip(lower=0), delta.clip(upper=0, lower=None)
+    mean_up = up.rolling(window=period, min_periods=1).mean()
+    mean_down = down.abs().rolling(window=period, min_periods=1).mean()
 
+    # Calcul des moyennes mobiles exponentielles (RMA)  
+    # mean_up = up.ewm(span=period, adjust=False).mean()
+    # mean_down = down.abs().ewm(span=period, adjust=False).mean()
 
+    rs = mean_up / mean_down
+
+    rsi = 100 - (100 / (1 + rs))
+    print(pd.concat([df['date_utc'], rsi], axis=1).head(30))
 
 def main():
     """
