@@ -1,0 +1,19 @@
+Plan
+
+Clean le fichier d'extract pour n'avoir que l'extraction des données brutes et save le fichier dans le répertoire data
+Créer transform.py pour appliquer toutes les transformations et ajout de features et save dans le répertoire data
+    
+    exemple de transformations
+    -get les données en 12h ou 6h pour plus de granularité (meilleure visibilité des patterns)
+    
+    exemple de nouvelles features
+    - variables dichotomique jour et mois
+    - pct de diff entre le jour n et n-1
+    - indicateur en tous genres (rsi, )
+
+Stats desc :
+pct() diff par mois et/ou par jour
+tracer les bougies dans un graphe
+...
+
+Création du modèle pour un jeu de données random
