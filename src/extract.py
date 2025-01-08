@@ -70,8 +70,8 @@ def indicator_rsi(df, period=14):
     """
     delta = df['Close_price'].diff()
     up, down = delta.clip(lower=0), delta.clip(upper=0, lower=None)
-    mean_up = up.rolling(window=period, min_periods=1).mean()
-    mean_down = down.abs().rolling(window=period, min_periods=1).mean()
+    mean_up = up.ewm(alpha=1/period, min_periods=period).mean()
+    mean_down = down.abs().ewm(alpha=1/period, min_periods=period).mean()
 
     # Calcul des moyennes mobiles exponentielles (RMA)  
     # mean_up = up.ewm(span=period, adjust=False).mean()
@@ -80,7 +80,7 @@ def indicator_rsi(df, period=14):
     rs = mean_up / mean_down
 
     rsi = 100 - (100 / (1 + rs))
-    print(pd.concat([df['date_utc'], rsi], axis=1).head(30))
+    print(pd.concat([df['date_utc'], rsi], axis=1).head(35))
 
 def main():
     """
