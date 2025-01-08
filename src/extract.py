@@ -46,16 +46,23 @@ def save_df_csv(df, name):
     """
     save en csv dans le fichier data
     """
-    df.to_csv(f'{wd}/data/{name}.csv')
+    df.to_csv(f'{wd}/data/{name}.csv', index=False)
 
-def transform_klines():
-    """"""
+def transform_klines(df):
+    """
+    """
+    df['date_utc'] = pd.to_datetime(df['Open_time'], unit='ms', utc=True)
+    #La date en premier
+    cols = ['date_utc'] + [col for col in df.columns if col != 'date_utc']
+    df = df[cols]
+    return df
 
 
 def main():
     """
     """
     df = klines_to_raw_df()
-    save_df_csv(df, 'raw')
+    df = transform_klines(df)
+    save_df_csv(df, 'transform_data')
 
 main()
