@@ -1,0 +1,65 @@
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.metrics import r2_score
+
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Input, Dense
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.losses import MeanSquaredError
+from tensorflow.keras.metrics import RootMeanSquaredError
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.models import load_model
+from dotenv import load_dotenv
+load_dotenv()
+
+
+WD = os.getenv('working_directory')
+WINDOW_SIZE = 7
+
+def prepare_model(name):
+    """
+    Set up le model
+    """
+    model = Sequential([Input((WINDOW_SIZE, 1)),
+                        LSTM(64),
+                        Dense(32, activation='relu'),
+                        Dense(32, activation='relu'),
+                        Dense(1)
+                        ], name=name)
+    
+    return model
+
+def prepare_checkpoint(name):
+    """
+    """
+    return ModelCheckpoint(f'{WD}/src/model/models/{name}/', save_best_only=True, save_format='tf', monitor='loss')
+
+def save(model):
+    """
+    """
+    model.save(f'{WD}/src/model/models/{model.name}/', save_format='tf')
+
+def train(model, learning_rate):
+    """
+    """
+    model.compile(loss=MeanSquaredError(), optimizer=Adam(learning_rate=learning_rate), metrics=[RootMeanSquaredError()])
+    return model
+
+def fit(model, cp, X_train, y_train, X_val, y_val):
+    """
+    """
+    model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, callbacks=[cp])
+    return model
+
+def main_training_model(model_name, X_train, y_train, X_val, y_val):
+
+    cp = prepare_checkpoint(name=model_name)
+    model = prepare_model(name=model_name)
+    
+    model = train(model, 0.01)
+    model = fit(model, cp, X_train, y_train, X_val, y_val)
+

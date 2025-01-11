@@ -5,14 +5,14 @@ from dotenv import load_dotenv
 from sklearn.preprocessing import MinMaxScaler
 load_dotenv()
 
-wd = os.getenv('working_directory')
+WD = os.getenv('working_directory')
 WINDOW_SIZE = 7
 
 def load_data(name):
     """
     Load un dataframe depuis un fichier csv data/name.csv
     """
-    return pd.read_csv(f'{wd}/data/{name}.csv')
+    return pd.read_csv(f'{WD}/data/{name}.csv')
 
 def get_close_price(df):
     """
@@ -59,11 +59,14 @@ def train_test_val(X, y, date, train_size):
     date_train, date_val, date_test = date_numpy[:q_train_size], date_numpy[q_train_size:q_val_test_size], date_numpy[q_val_test_size:]
     return date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test
 
-
-def main():
-
-    df = load_data('transform_data')
+def main_pre_processing(name):
+    """
+    Renvoie X_train, y_train, X_val, y_val, X_test, y_test pour le df
+    """
+    df = load_data(name)
     close = get_close_price(df)
-    X, y = build_window_matrix(close, window_size=WINDOW_SIZE)
-    print(X)
+    date = get_date(df)
+    X, y, scaler = build_window_matrix(close, window_size=WINDOW_SIZE)
+    return train_test_val(X, y, date, train_size=0.8), scaler
+
 
