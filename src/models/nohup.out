@@ -1,0 +1,120 @@
+2025-01-10 19:19:04.681474: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-10 19:19:04.851660: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2025-01-10 19:19:04.851748: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-01-10 19:19:04.887536: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-10 19:19:05.533940: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:19:05.534090: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:19:05.534104: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2025-01-10 19:19:06.263855: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2025-01-10 19:19:06.263928: W tensorflow/stream_executor/cuda/cuda_driver.cc:263] failed call to cuInit: UNKNOWN ERROR (303)
+2025-01-10 19:19:06.263956: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (margaux): /proc/driver/nvidia/version does not exist
+2025-01-10 19:19:06.264309: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Traceback (most recent call last):
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 63, in <module>
+    main()
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 60, in main
+    train(model)
+NameError: name 'model' is not defined
+2025-01-10 19:19:25.587173: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-10 19:19:25.759199: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2025-01-10 19:19:25.759274: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-01-10 19:19:25.797280: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-10 19:19:26.467814: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:19:26.467977: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:19:26.468005: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2025-01-10 19:19:27.213105: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2025-01-10 19:19:27.213178: W tensorflow/stream_executor/cuda/cuda_driver.cc:263] failed call to cuInit: UNKNOWN ERROR (303)
+2025-01-10 19:19:27.213227: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (margaux): /proc/driver/nvidia/version does not exist
+2025-01-10 19:19:27.213558: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Traceback (most recent call last):
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 63, in <module>
+    main()
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 60, in main
+    model=train(model)
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 47, in train
+    model.compile(loss=MeanSquaredError(), optimizer=Adam(learning_rate=0.0001), metrics=[RootMeanSquaredError()])
+NameError: name 'Adam' is not defined
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 10
+    from tensorflow.keras/optimizer import Adam
+                         ^
+SyntaxError: invalid syntax
+2025-01-10 19:21:08.576938: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-10 19:21:08.747041: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2025-01-10 19:21:08.747115: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-01-10 19:21:08.782700: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-10 19:21:09.565737: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:21:09.565861: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:21:09.565875: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+Traceback (most recent call last):
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 10, in <module>
+    from tensorflow.keras.optimizer import Adam
+ModuleNotFoundError: No module named 'tensorflow.keras.optimizer'
+2025-01-10 19:21:21.339025: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-10 19:21:21.484213: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2025-01-10 19:21:21.484278: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-01-10 19:21:21.519910: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-10 19:21:22.158533: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:21:22.158654: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:21:22.158667: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2025-01-10 19:21:22.869720: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2025-01-10 19:21:22.869787: W tensorflow/stream_executor/cuda/cuda_driver.cc:263] failed call to cuInit: UNKNOWN ERROR (303)
+2025-01-10 19:21:22.869824: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (margaux): /proc/driver/nvidia/version does not exist
+2025-01-10 19:21:22.870123: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Traceback (most recent call last):
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 64, in <module>
+    main()
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 62, in main
+    fit(model, cp)
+  File "/home/alexander.lunel/Private/ML/Projet_ml/src/models/training_models.py", line 54, in fit
+    model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, callbacks=[cp])
+NameError: name 'X_train' is not defined. Did you mean: 'train'?
+2025-01-10 19:22:12.503503: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-10 19:22:12.749402: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2025-01-10 19:22:12.749480: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-01-10 19:22:12.832315: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-10 19:22:14.216903: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:22:14.217047: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory
+2025-01-10 19:22:14.217061: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2025-01-10 19:22:15.370338: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2025-01-10 19:22:15.370412: W tensorflow/stream_executor/cuda/cuda_driver.cc:263] failed call to cuInit: UNKNOWN ERROR (303)
+2025-01-10 19:22:15.370444: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (margaux): /proc/driver/nvidia/version does not exist
+2025-01-10 19:22:15.370752: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Epoch 1/10
+ 1/11 [=>............................] - ETA: 22s - loss: 2662121984.0000 - root_mean_squared_error: 51595.7539 8/11 [====================>.........] - ETA: 0s - loss: 2786815744.0000 - root_mean_squared_error: 52790.3008 WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 8s 592ms/step - loss: 2816711424.0000 - root_mean_squared_error: 53072.6992 - val_loss: 3821272320.0000 - val_root_mean_squared_error: 61816.4414
+Epoch 2/10
+ 1/11 [=>............................] - ETA: 0s - loss: 2875738112.0000 - root_mean_squared_error: 53625.9102 8/11 [====================>.........] - ETA: 0s - loss: 2761646336.0000 - root_mean_squared_error: 52551.3672WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 4s 420ms/step - loss: 2816710400.0000 - root_mean_squared_error: 53072.6914 - val_loss: 3821270784.0000 - val_root_mean_squared_error: 61816.4297
+Epoch 3/10
+ 1/11 [=>............................] - ETA: 0s - loss: 2632672768.0000 - root_mean_squared_error: 51309.5781 7/11 [==================>...........] - ETA: 0s - loss: 2742403072.0000 - root_mean_squared_error: 52367.9570WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 4s 412ms/step - loss: 2816709120.0000 - root_mean_squared_error: 53072.6758 - val_loss: 3821269504.0000 - val_root_mean_squared_error: 61816.4180
+Epoch 4/10
+ 1/11 [=>............................] - ETA: 0s - loss: 3103696640.0000 - root_mean_squared_error: 55710.8320 9/11 [=======================>......] - ETA: 0s - loss: 2827897600.0000 - root_mean_squared_error: 53177.9805WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 4s 441ms/step - loss: 2816708352.0000 - root_mean_squared_error: 53072.6719 - val_loss: 3821268736.0000 - val_root_mean_squared_error: 61816.4102
+Epoch 5/10
+ 1/11 [=>............................] - ETA: 0s - loss: 2632645888.0000 - root_mean_squared_error: 51309.3164 9/11 [=======================>......] - ETA: 0s - loss: 2810799104.0000 - root_mean_squared_error: 53016.9688WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 5s 477ms/step - loss: 2816707584.0000 - root_mean_squared_error: 53072.6641 - val_loss: 3821267968.0000 - val_root_mean_squared_error: 61816.4062
+Epoch 6/10
+ 1/11 [=>............................] - ETA: 0s - loss: 2914467840.0000 - root_mean_squared_error: 53985.812510/11 [==========================>...] - ETA: 0s - loss: 2812273920.0000 - root_mean_squared_error: 53030.8789WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 5s 520ms/step - loss: 2816706816.0000 - root_mean_squared_error: 53072.6562 - val_loss: 3821266944.0000 - val_root_mean_squared_error: 61816.3984
+Epoch 7/10
+ 1/11 [=>............................] - ETA: 0s - loss: 2701779200.0000 - root_mean_squared_error: 51978.6406 7/11 [==================>...........] - ETA: 0s - loss: 2907007488.0000 - root_mean_squared_error: 53916.6719WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 4s 426ms/step - loss: 2816706304.0000 - root_mean_squared_error: 53072.6523 - val_loss: 3821266176.0000 - val_root_mean_squared_error: 61816.3906
+Epoch 8/10
+ 1/11 [=>............................] - ETA: 0s - loss: 2679489024.0000 - root_mean_squared_error: 51763.7812 8/11 [====================>.........] - ETA: 0s - loss: 2757518848.0000 - root_mean_squared_error: 52512.0820WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 4s 424ms/step - loss: 2816705280.0000 - root_mean_squared_error: 53072.6406 - val_loss: 3821265152.0000 - val_root_mean_squared_error: 61816.3828
+Epoch 9/10
+ 1/11 [=>............................] - ETA: 0s - loss: 2915880960.0000 - root_mean_squared_error: 53998.898411/11 [==============================] - ETA: 0s - loss: 2816705024.0000 - root_mean_squared_error: 53072.6406WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 4s 378ms/step - loss: 2816705024.0000 - root_mean_squared_error: 53072.6406 - val_loss: 3821264384.0000 - val_root_mean_squared_error: 61816.3750
+Epoch 10/10
+ 1/11 [=>............................] - ETA: 0s - loss: 3009862144.0000 - root_mean_squared_error: 54862.2109 9/11 [=======================>......] - ETA: 0s - loss: 2804205312.0000 - root_mean_squared_error: 52954.7461WARNING:absl:Found untraced functions such as lstm_cell_layer_call_fn, lstm_cell_layer_call_and_return_conditional_losses while saving (showing 2 of 2). These functions will not be directly callable after loading.
+11/11 [==============================] - 4s 411ms/step - loss: 2816704512.0000 - root_mean_squared_error: 53072.6328 - val_loss: 3821263872.0000 - val_root_mean_squared_error: 61816.3711

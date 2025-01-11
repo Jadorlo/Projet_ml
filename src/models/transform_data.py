@@ -46,5 +46,3 @@ def main():
     close = get_close_price(df)
     X, y = build_window_matrix(close, window_size=WINDOW_SIZE)
     print(X.shape, y.shape)
-
-main()
