@@ -20,11 +20,11 @@ load_dotenv()
 WD = os.getenv('working_directory')
 WINDOW_SIZE = 7
 
-def prepare_model(name):
+def prepare_model(name, n_features):
     """
     Set up le model
     """
-    model = Sequential([Input((WINDOW_SIZE, 1)),
+    model = Sequential([Input((WINDOW_SIZE, n_features)),
                         LSTM(64),
                         Dense(32, activation='relu'),
                         Dense(32, activation='relu'),
@@ -49,17 +49,15 @@ def train(model, learning_rate):
     model.compile(loss=MeanSquaredError(), optimizer=Adam(learning_rate=learning_rate), metrics=[RootMeanSquaredError()])
     return model
 
-def fit(model, cp, X_train, y_train, X_val, y_val):
+def fit(model, cp, X_train, y_train, X_val, y_val, N_EPOCHS):
     """
     """
-    model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, callbacks=[cp])
+    model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=N_EPOCHS, callbacks=[cp])
     return model
 
-def main_training_model(model_name, X_train, y_train, X_val, y_val):
+def main_training_model(model_name, scaler_features, scaler_target, X_train, y_train, X_val, y_val, N_EPOCHS):
 
     cp = prepare_checkpoint(name=model_name)
-    model = prepare_model(name=model_name)
-    
-    model = train(model, 0.01)
-    model = fit(model, cp, X_train, y_train, X_val, y_val)
-
+    model = prepare_model(name=model_name,n_features=X_train.shape[2])
+    model = train(model, 0.001)
+    model = fit(model, cp, X_train, y_train, X_val, y_val, N_EPOCHS)

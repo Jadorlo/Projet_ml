@@ -3,11 +3,14 @@ from pre_processing import main_pre_processing
 
 def main():
     """
+    preprocess les données data_name et entraine un modele model_name
     """
-    model_name = input("Entre le nom du modèle : ")
-    data_name = input("Entre le nom du fichier de données : ")
-    (date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler = main_pre_processing(data_name)
-    main_training_model(model_name, X_train, y_train, X_val, y_val)
+    N_EPOCHS = 400
 
+    model_name = "All_variables"
+    data_name = "dataset_v1"
+    full_model_name = model_name+'-'+data_name+'-'+str(N_EPOCHS)
+    (date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing(data_name, is_one_var=False)
+    main_training_model(full_model_name, scaler_features, scaler_target, X_train, y_train, X_val, y_val, N_EPOCHS)
 
 main()
