@@ -106,8 +106,8 @@ def analyze_for_data(model, scaler_features, scaler_target, date_train, X_train,
     X_inv_scaled = np.array(X_inv_scaled)
     X = X_inv_scaled.reshape(X.shape[0], X.shape[1], X.shape[2])
     print(X.shape)
-    #y = inverse_scaler(scaler_target, [y])
-    y = inverse_scaler(scaler_target, y)
+    y = inverse_scaler(scaler_target, [y])
+    #y = inverse_scaler(scaler_target, y)
     print(y.shape)
     predictions = inverse_scaler(scaler_target, pred)
 
@@ -117,11 +117,11 @@ def analyze_for_data(model, scaler_features, scaler_target, date_train, X_train,
     plot(df_analyze, model.name, is_train)
 
 def main_analyze_model():
-    model_name = "Close_price-dataset_raw_1d-100"
+    model_name = "All_variables-dataset_raw_1d-100"
     data_name = model_name.split('-')[1]
     loaded_model = load(model_name)
 
-    (date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing(data_name, is_one_var=True)
+    (date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing(data_name, is_one_var=False)
 
     is_train = int(input("is_train : 1 pour Train, 0 pour Test , 2 pour val : "))
     print(is_train)

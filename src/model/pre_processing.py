@@ -67,10 +67,12 @@ def build_window_matrix_multi_var(df, window_size):
 
     return X.astype(np.float32), y.astype(np.float32), scaler_features, scaler_target
 
-def build_window_matrix_one_var(df, window_size):
+def build_window_matrix_one_var(df, interval, interval_cod, window_size):
     """
     """
     scaler = MinMaxScaler()
+
+    delta_1_jour = interval_cod[interval]
 
     df_numpy = df_to_numpy(df).reshape(len(df), -1)
     print(df_numpy.shape)
@@ -78,10 +80,10 @@ def build_window_matrix_one_var(df, window_size):
     
     X = []
     y = []
-    for i in range(len(df_numpy_scaled)-window_size):
+    for i in range(len(df_numpy_scaled)-window_size-delta_1_jour):
         row = [a for a in df_numpy_scaled[i:i+window_size]]
         X.append(row)
-        y.append(df_numpy_scaled[i+window_size])
+        y.append(df_numpy_scaled[i+window_size+delta_1_jour])
 
     return np.array(X).astype(np.float32), np.array(y).astype(np.float32), scaler, scaler
 
@@ -104,19 +106,23 @@ def main_pre_processing(name, is_one_var):
     Renvoie X_train, y_train, X_val, y_val, X_test, y_test pour le df
     """
     df = load_data(name)
+    interval = name.split('_')[-1]
+    interval_cod = {'1d':0,
+                    '6h':3,
+                    '1h':23}
     date = get_date(df)
     if is_one_var:
         df = get_close_price(df)
-        X, y, scaler_features, scaler_target = build_window_matrix_one_var(df, window_size=WINDOW_SIZE)
+        X, y, scaler_features, scaler_target = build_window_matrix_one_var(df, interval, interval_cod, window_size=WINDOW_SIZE)
     else:
         df = rearrange_data(df)
         X, y, scaler_features, scaler_target = build_window_matrix_multi_var(df, window_size=WINDOW_SIZE)
     return train_test_val(X, y, date, train_size=0.8), scaler_features, scaler_target
 
-# (date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing("dataset_v1", is_one_var=False)
-# print(f'X_train : {X_train.shape}')
-# print(f'y_train : {y_train.shape}')
-# print(f'X_val : {X_val.shape}')
-# print(f'y_val : {y_val.shape}')
-# print(f'X_test : {X_test.shape}')
-# print(f'y_test : {y_test.shape}')
+(date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing("dataset_raw_6h", is_one_var=True)
+print(f'X_train : {X_train[:10, :,:]}')
+print(f'y_train : {y_train[:10]}')
+print(f'X_val : {X_val.shape}')
+print(f'y_val : {y_val.shape}')
+print(f'X_test : {X_test.shape}')
+print(f'y_test : {y_test.shape}')
