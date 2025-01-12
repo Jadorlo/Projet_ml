@@ -17,11 +17,11 @@ def get_data(name):
 def transform_klines(df):
     """
     """
-    #df['date_utc'] = pd.to_datetime(df['Open_time'], unit='ms', utc=True)
+    df['date_utc'] = pd.to_datetime(df['Open_time'], unit='ms', utc=True)
     df[df.select_dtypes(include=['object']).columns] = df.select_dtypes(include=['object']).apply(pd.to_numeric, errors='coerce')
     #La date en premier
-    # cols = ['date_utc'] + [col for col in df.columns if col != 'date_utc']
-    # df = df[cols]
+    cols = ['date_utc'] + [col for col in df.columns if col != 'date_utc']
+    df = df[cols]
     return df
 
 def create_target(df):
@@ -51,17 +51,12 @@ def indicator_rsi(df, period=14):
 
     return df
 
-def save(df, name):
-    """
-    """
-    df.to_csv(f'{wd}/data/transform_{name}.csv', index=False)
 
 def main():
-    name="dataset_raw_6h"
-    df = get_data(name)
+
+    df = get_data("raw")
     df = transform_klines(df)
     df =  create_target(df)
     print(indicator_rsi(df, period=14))
-    save(df, name)
 
 main()
