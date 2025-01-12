@@ -74,12 +74,12 @@ def get_inteval_data_for_500_days(symbol, interval, limit):
             
             # Convertir les données en DataFrame
             df = pd.DataFrame(klines, columns=[
-                "Open Time", "Open", "High", "Low", "Close", "Volume",
-                "Close Time", "Quote Asset Volume", "Number of Trades",
-                "Taker Buy Base Asset Volume", "Taker Buy Quote Asset Volume", "Ignore"
+                "Open_time", "Open_price", "High_price", "Low_price", "Close_price", "Volume",
+                "Close_time", "Quote_volume", "Nb_trades",
+                "Taker_buy_base_volume", "Taker_buy_quote_volume", "Ignore"
             ])
-            df["Open Time"] = pd.to_datetime(df["Open Time"], unit="ms")
-            df["Close Time"] = pd.to_datetime(df["Close Time"], unit="ms")
+            df["Open_time"] = pd.to_datetime(df["Open_time"], unit="ms")
+            df["Close_time"] = pd.to_datetime(df["Close_time"], unit="ms")
             all_data.append(df)
             
             # Mettre à jour start_time pour le prochain appel
