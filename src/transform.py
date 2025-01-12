@@ -17,11 +17,11 @@ def get_data(name):
 def transform_klines(df):
     """
     """
-    df['date_utc'] = pd.to_datetime(df['Open_time'], unit='ms', utc=True)
+    #df['date_utc'] = pd.to_datetime(df['Open_time'], unit='ms', utc=True)
     df[df.select_dtypes(include=['object']).columns] = df.select_dtypes(include=['object']).apply(pd.to_numeric, errors='coerce')
     #La date en premier
-    cols = ['date_utc'] + [col for col in df.columns if col != 'date_utc']
-    df = df[cols]
+    # cols = ['date_utc'] + [col for col in df.columns if col != 'date_utc']
+    # df = df[cols]
     return df
 
 def create_target(df):
