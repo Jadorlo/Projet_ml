@@ -20,10 +20,14 @@ def api_call(url):
     """
     url = BASE_URL + url
     params = {"symbol": "BTCUSDT", 
-              "interval":"1d"}
+              "interval":"6h",
+              "startTime":1693180800000,
+              "endTime":1736294400000}
     response = requests.get(url, params)
     if response.status_code==200:
         data=response.json()
+    else:
+        print(response.status_code)
     return data
 
 def get_klines():
@@ -53,7 +57,7 @@ def save_df_csv(df, name):
 def main():
     """
     """
-    df = klines_to_raw_df()()
-    save_df_csv(df, "raw")
+    df = klines_to_raw_df()
+    save_df_csv(df, "dataset_raw_6h")
 
 main()
