@@ -14,7 +14,7 @@ BASE_URL = 'https://api.binance.com/'
 wd = os.getenv('working_directory')
 BASE_URL = "https://api.binance.com/api/v3/klines"
 SYMBOL = "BTCUSDT"  # Paire BTC/USDT
-INTERVAL = "6h"     # Intervalle des chandeliers : 6 heures
+INTERVAL = "1h"     # Intervalle des chandeliers : 6 heures
 LIMIT = 500         # Limite par requête
 
 def fetch_klines(symbol, interval, start_time, end_time=None, limit=500):
