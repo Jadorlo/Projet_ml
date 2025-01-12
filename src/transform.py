@@ -51,11 +51,17 @@ def indicator_rsi(df, period=14):
 
     return df
 
-def main():
+def save(df, name):
+    """
+    """
+    df.to_csv(f'{wd}/data/transform_{name}.csv', index=False)
 
-    df = get_data("raw")
+def main():
+    name="dataset_raw_6h"
+    df = get_data(name)
     df = transform_klines(df)
     df =  create_target(df)
     print(indicator_rsi(df, period=14))
+    save(df, name)
 
 main()
