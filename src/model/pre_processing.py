@@ -16,8 +16,9 @@ def load_data(name):
 
 def rearrange_data(df):
     df.dropna(inplace=True)
-    df.drop('Unnamed: 0', axis=1, inplace=True)
-    df.drop('date_utc', axis=1, inplace=True)
+    df.drop('Ignore', axis=1, inplace=True)
+    df.drop('Open_time', axis=1, inplace=True)
+    df.drop('Close_time', axis=1, inplace=True)
     columns = ['Close_price'] + [col for col in df.columns if col != 'Close_price']
     df = df[columns]
     return df
@@ -29,12 +30,12 @@ def get_close_price(df):
     return df['Close_price'].copy()
 
 def get_date(df):
-    return df['date_utc'].copy()
+    return df['Open_time'].copy()
 
 def df_to_numpy(df):
     return df.to_numpy()
     
-def build_window_matrix(df, window_size):
+def build_window_matrix_multi_var(df, window_size):
     """
     """
     scaler_features = MinMaxScaler()
@@ -66,23 +67,23 @@ def build_window_matrix(df, window_size):
 
     return X.astype(np.float32), y.astype(np.float32), scaler_features, scaler_target
 
-# def build_window_matrix(df, window_size):
-#     """
-#     """
-#     scaler = MinMaxScaler()
+def build_window_matrix_one_var(df, window_size):
+    """
+    """
+    scaler = MinMaxScaler()
 
-#     df_numpy = df_to_numpy(df).reshape(len(df), -1)
-#     print(df_numpy.shape)
-#     df_numpy_scaled = scaler.fit_transform(df_numpy)
+    df_numpy = df_to_numpy(df).reshape(len(df), -1)
+    print(df_numpy.shape)
+    df_numpy_scaled = scaler.fit_transform(df_numpy)
     
-#     X = []
-#     y = []
-#     for i in range(len(df_numpy_scaled)-window_size):
-#         row = [a for a in df_numpy_scaled[i:i+window_size]]
-#         X.append(row)
-#         y.append(df_numpy_scaled[i+window_size][0])
+    X = []
+    y = []
+    for i in range(len(df_numpy_scaled)-window_size):
+        row = [a for a in df_numpy_scaled[i:i+window_size]]
+        X.append(row)
+        y.append(df_numpy_scaled[i+window_size])
 
-#     return np.array(X).astype(np.float32), np.array(y).astype(np.float32), scaler
+    return np.array(X).astype(np.float32), np.array(y).astype(np.float32), scaler, scaler
 
 def train_test_val(X, y, date, train_size):
     """
@@ -106,9 +107,10 @@ def main_pre_processing(name, is_one_var):
     date = get_date(df)
     if is_one_var:
         df = get_close_price(df)
+        X, y, scaler_features, scaler_target = build_window_matrix_one_var(df, window_size=WINDOW_SIZE)
     else:
         df = rearrange_data(df)
-    X, y, scaler_features, scaler_target = build_window_matrix(df, window_size=WINDOW_SIZE)
+        X, y, scaler_features, scaler_target = build_window_matrix_multi_var(df, window_size=WINDOW_SIZE)
     return train_test_val(X, y, date, train_size=0.8), scaler_features, scaler_target
 
 # (date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing("dataset_v1", is_one_var=False)
