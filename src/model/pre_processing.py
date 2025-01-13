@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+import datetime
 from dotenv import load_dotenv
 from sklearn.preprocessing import MinMaxScaler
 load_dotenv()
@@ -29,8 +30,17 @@ def get_close_price(df):
     """
     return df['Close_price'].copy()
 
+def get_log_close_price(df):
+    """
+    Extrait seulement le prix de cloture de la journée en log
+    """
+    return np.log(df['Close_price'].copy())
+
 def get_date(df):
     return df['Open_time'].copy()
+
+def get_pourcentage(df):
+    return df['evolution_prct'].copy().dropna()
 
 def df_to_numpy(df):
     return df.to_numpy()
@@ -67,62 +77,89 @@ def build_window_matrix_multi_var(df, window_size):
 
     return X.astype(np.float32), y.astype(np.float32), scaler_features, scaler_target
 
-def build_window_matrix_one_var(df, interval, interval_cod, window_size):
+def build_window_matrix_one_var(df, window_size):
     """
     """
     scaler = MinMaxScaler()
-
-    delta_1_jour = interval_cod[interval]
-
     df_numpy = df_to_numpy(df).reshape(len(df), -1)
-    print(df_numpy.shape)
+    print("df_numpy.shape : ",df_numpy.shape)
     df_numpy_scaled = scaler.fit_transform(df_numpy)
+    print("df_numpy_scaled.shape : ",df_numpy_scaled.shape)
     
     X = []
     y = []
-    for i in range(len(df_numpy_scaled)-window_size-delta_1_jour):
+
+    for i in range(len(df_numpy_scaled)-window_size):
         row = [a for a in df_numpy_scaled[i:i+window_size]]
         X.append(row)
-        y.append(df_numpy_scaled[i+window_size+delta_1_jour])
+        y.append(df_numpy_scaled[i+window_size])
 
-    return np.array(X).astype(np.float32), np.array(y).astype(np.float32), scaler, scaler
+    print('X_shape', np.array(X).shape)
+    scaler_features = scaler
+    scaler_target = scaler
+
+    return np.array(X).astype(np.float32), np.array(y).astype(np.float32), scaler_features, scaler_target
 
 def train_test_val(X, y, date, train_size):
     """
     """
     q_train_size = int(len(X)*train_size)
     q_val_test_size = int(len(X)*(train_size+(1-train_size)/2))
-
-    X_train, y_train = X[:q_train_size], y[:q_train_size]
-    X_val, y_val = X[q_train_size:q_val_test_size], y[q_train_size:q_val_test_size]
-    X_test, y_test = X[q_val_test_size:], y[q_val_test_size:]
-
     date_numpy = df_to_numpy(date)
-    date_train, date_val, date_test = date_numpy[:q_train_size], date_numpy[q_train_size:q_val_test_size], date_numpy[q_val_test_size:]
+
+    X_train, y_train, date_train = X[:q_train_size], y[:q_train_size], date_numpy[:q_train_size]
+    X_val, y_val, date_val = X[q_train_size:q_val_test_size], y[q_train_size:q_val_test_size], date_numpy[q_train_size:q_val_test_size]
+    X_test, y_test, date_test = X[q_val_test_size:], y[q_val_test_size:], date_numpy[q_val_test_size:]
+
     return date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test
 
-def main_pre_processing(name, is_one_var):
+def main_pre_processing_close_price(name):
     """
     Renvoie X_train, y_train, X_val, y_val, X_test, y_test pour le df
     """
     df = load_data(name)
-    interval = name.split('_')[-1]
-    interval_cod = {'1d':0,
-                    '6h':3,
-                    '1h':23}
     date = get_date(df)
-    if is_one_var:
-        df = get_close_price(df)
-        X, y, scaler_features, scaler_target = build_window_matrix_one_var(df, interval, interval_cod, window_size=WINDOW_SIZE)
-    else:
-        df = rearrange_data(df)
-        X, y, scaler_features, scaler_target = build_window_matrix_multi_var(df, window_size=WINDOW_SIZE)
+    df = get_close_price(df)
+    X, y, scaler_features, scaler_target = build_window_matrix_one_var(df, window_size=WINDOW_SIZE)
     return train_test_val(X, y, date, train_size=0.8), scaler_features, scaler_target
 
-(date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing("dataset_raw_6h", is_one_var=True)
-print(f'X_train : {X_train[:10, :,:]}')
-print(f'y_train : {y_train[:10]}')
-print(f'X_val : {X_val.shape}')
-print(f'y_val : {y_val.shape}')
-print(f'X_test : {X_test.shape}')
-print(f'y_test : {y_test.shape}')
+def main_pre_processing_log_close_price(name):
+    """
+    Renvoie X_train, y_train, X_val, y_val, X_test, y_test pour le df
+    """
+    df = load_data(name)
+    date = get_date(df)
+    df_close_price = get_log_close_price(df)
+    X, y, scaler_features, scaler_target = build_window_matrix_one_var(df_close_price, window_size=WINDOW_SIZE)
+    return train_test_val(X, y, date, train_size=0.8), scaler_features, scaler_target
+
+def main_pre_processing_all_var(name):
+    """
+    Renvoie X_train, y_train, X_val, y_val, X_test, y_test pour le df
+    """
+    df = load_data(name)
+    date = get_date(df)
+    df = rearrange_data(df)
+    X, y, scaler_features, scaler_target = build_window_matrix_multi_var(df, window_size=WINDOW_SIZE)
+    return train_test_val(X, y, date, train_size=0.8), scaler_features, scaler_target
+
+def main_pre_processing_pourcentage(name):
+    """
+    Renvoie X_train, y_train, X_val, y_val, X_test, y_test pour le df
+    """
+    df = load_data(name)
+    date = get_date(df)
+    df = get_pourcentage(df)
+    print(df.head())
+    X, y, scaler_features, scaler_target = build_window_matrix_one_var(df, window_size=WINDOW_SIZE)
+    return train_test_val(X, y, date, train_size=0.8), scaler_features, scaler_target
+
+#(date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing_log_close_price("dataset_raw_1d_2017_08_17_2025_01_08")
+# print(f'X_train : {X_train[:10, :,:]}')
+# print(f'y_train : {y_train[:10]}')
+# print(f'X_val : {X_val.shape}')
+# print(f'y_val : {y_val.shape}')
+# print(f'X_test : {X_test.shape}')
+# print(f'y_test : {y_test.shape}')
+#print(f'{date_train[0]}|{scaler_features.inverse_transform(X_train[0,:,:])}| {y_train[0]}')
+#datetime.datetime.fromtimestamp(date_train[0]/1000).date()

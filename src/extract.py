@@ -3,18 +3,17 @@ import sys
 from datetime import datetime
 import pandas as pd
 import requests
-import json
+import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
 #Get klines (candles) 
 #GET /api/v3/klines
 
-BASE_URL = 'https://api.binance.com/'
 wd = os.getenv('working_directory')
 BASE_URL = "https://api.binance.com/api/v3/klines"
 SYMBOL = "BTCUSDT"  # Paire BTC/USDT
-INTERVAL = "15m"     # Intervalle des chandeliers : 6 heures
+INTERVAL = "1d"     # Intervalle des chandeliers : 6 heures
 LIMIT = 500         # Limite par requête
 
 def fetch_klines(symbol, interval, start_time, end_time=None, limit=500):
@@ -55,9 +54,11 @@ def get_inteval_data_for_500_days(symbol, interval, limit):
     concatène les résultats dans un DataFrame et les sauvegarde dans un fichier CSV.
     """
     # Timestamp pour les 500 derniers jours
-    current_time = 1736294400000  # Timestamp actuel en ms
-    past_time = 1693180800000  # 500 jours en arrière en ms
-    output_csv=f"dataset_raw_{interval}.csv"
+    current_time = 1736294400000  # Dernier timestamp
+    past_time = 1693180800000  # Premier timestamp #1693180800000
+    date_past_time = datetime.datetime.fromtimestamp(past_time/1000).date().strftime('%Y_%m_%d')
+    date_current_time = datetime.datetime.fromtimestamp(current_time/1000).date().strftime('%Y_%m_%d')
+    output_csv=f"dataset_raw_{interval}_{date_past_time}_{date_current_time}.csv"
     
     # Initialiser le DataFrame pour concaténer les données
     all_data = []
@@ -137,6 +138,6 @@ def main():
     """
     """
     df = klines_to_raw_df()
-    save_df_csv(df, "dataset_raw_6h")
+    save_df_csv(df, "dataset_raw_1d")
 
-# main()
+#main()

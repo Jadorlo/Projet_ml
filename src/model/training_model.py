@@ -1,6 +1,6 @@
 import os
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Input, Dense
+from tensorflow.keras.layers import LSTM, Input, Dense, Dropout
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.losses import MeanSquaredError
 from tensorflow.keras.metrics import RootMeanSquaredError
@@ -17,10 +17,13 @@ def prepare_model(name, n_features):
     """
     Set up le model
     """
-    model = Sequential([Input((WINDOW_SIZE, n_features)),
-                        LSTM(64),
-                        Dense(32, activation='relu'),
-                        Dense(32, activation='relu'),
+    model = Sequential(
+                        [Input((WINDOW_SIZE, n_features)),
+                        LSTM(256),
+                        Dropout(0.5),
+                        Dense(64, activation='relu'),
+                        Dropout(0.2),
+                        # Dense(32, activation='relu'),
                         Dense(1)
                         ], name=name)
     
