@@ -122,6 +122,7 @@ def analyze_for_data(model, scaler_features, scaler_target, date_train, X_train,
         date = date_val
         X = X_val
         y = y_val
+        
     print("X.shape", X.shape)
 
     pred = predict(model, X)
