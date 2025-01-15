@@ -8,11 +8,12 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import LSTM, Input, Dense
 
 from pre_processing import main_pre_processing_pourcentage, main_pre_processing_close_price, main_pre_processing_log_close_price
+from pre_processing2 import main_pre_processing2_log_close_price
 
 from dotenv import load_dotenv
 load_dotenv()
 
-WINDOW_SIZE = 7
+
 WD = os.getenv('working_directory')
 
 def create_directory_if_not_exists(directory_name):
@@ -130,6 +131,7 @@ def analyze_for_data(model, scaler_features, scaler_target, date_train, X_train,
     X_inv_scaled = inverse_scaler(scaler_features, X_reshape)
     X_inv_scaled = np.array(X_inv_scaled)
     X = X_inv_scaled.reshape(X.shape[0], X.shape[1], X.shape[2])
+    
     #y = inverse_scaler(scaler_target, [y])
     y = inverse_scaler(scaler_target, y)
     predictions = inverse_scaler(scaler_target, pred)
@@ -146,6 +148,31 @@ def main_analyze_model(model_name):
     (date_train, X_train, y_train, date_val, X_val, y_val, date_test, X_test, y_test), scaler_features, scaler_target = main_pre_processing_log_close_price(data_name)
     for is_train in (1, 2, 0):
         analyze_for_data(loaded_model, scaler_features, scaler_target, date_train, X_train, y_train, date_test, X_test, y_test, date_val, X_val, y_val, is_train)
+
+def main_analyze_model2(model_name):
+    
+    WINDOW_SIZE = 7
+    data_name = model_name.split('-')[1]
+    loaded_model = load(model_name)
+
+    datasets = main_pre_processing2_log_close_price('dataset_raw_1d_2017_08_17_2025_01_08')
+
+    date_train = datasets['TRAIN'][0][0]
+    X_train = datasets['TRAIN'][0][1]
+    y_train = datasets['TRAIN'][0][2]
+    scaler_train = datasets['TRAIN'][0][3]
+
+    date_test = datasets['TEST'][0][0]
+    X_test = datasets['TEST'][0][1]
+    y_test = datasets['TEST'][0][2]
+    scaler_test = datasets['TEST'][0][3]
+
+    date_val = datasets['VAL'][0][0]
+    X_val = datasets['VAL'][0][1]
+    y_val = datasets['VAL'][0][2]
+    scaler_val = datasets['VAL'][0][3]
+
+
 
 # model_name = "test_Close_price_log_jaquart_dense64-dataset_raw_1d_2017_08_17_2025_01_08-300"
 # main_analyze_model(model_name)
