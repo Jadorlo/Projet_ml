@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix, r2_score
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import LSTM, Input, Dense
 
-from pre_processing2 import main_pre_processing2_log_close_price
+from pre_processing2 import main_pre_processing2_log_close_price, main_pre_processing2_multivar
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -70,6 +70,7 @@ def analyze_table(date, X, y, y_pred, scaler, window_size):
         """
         Construit le tableau d'analyse
         """
+        print(pd.DataFrame(y_pred_inv_scaled).head())
         df_analyze = pd.concat([
                             pd.DataFrame(date), 
                             pd.DataFrame(X_inv_scaled[:, window_size-1, 0]), 
@@ -150,7 +151,7 @@ def main_analyze_model2(model_name, window_size):
     for data_type in ('TRAIN', 'VAL', 'TEST'):
         analyze(loaded_model, data_type, datasets, window_size)
 
-#main_analyze_model2("test_preprocess2_Close_price_log_jaquart_dense64-dataset_raw_1d_2017_08_17_2025_01_08-100")
+main_analyze_model2("test_preprocess2_Close_price_log_jaquart_dense64_dense2_WS7-dataset_raw_1d_2017_08_17_2025_01_08-100", 7)
 
 
 

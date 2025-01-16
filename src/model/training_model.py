@@ -11,14 +11,14 @@ load_dotenv()
 
 
 WD = os.getenv('working_directory')
-WINDOW_SIZE = 7
 
-def prepare_model(name, n_features):
+
+def prepare_model(name, n_features, window_size):
     """
     Set up le model
     """
     model = Sequential(
-                        [Input((WINDOW_SIZE, n_features)),
+                        [Input((window_size, n_features)),
                         LSTM(256),
                         Dropout(0.5),
                         Dense(64, activation='relu'),
@@ -51,9 +51,9 @@ def fit(model, cp, X_train, y_train, X_val, y_val, N_EPOCHS):
     model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=N_EPOCHS, callbacks=[cp])
     return model
 
-def main_training_model(model_name, X_train, y_train, X_val, y_val, N_EPOCHS):
+def main_training_model(model_name, X_train, y_train, X_val, y_val, window_size, N_EPOCHS):
 
     cp = prepare_checkpoint(name=model_name)
-    model = prepare_model(name=model_name,n_features=X_train.shape[2])
+    model = prepare_model(name=model_name,n_features=X_train.shape[2], window_size=window_size)
     model = train(model, 0.001)
     model = fit(model, cp, X_train, y_train, X_val, y_val, N_EPOCHS)
