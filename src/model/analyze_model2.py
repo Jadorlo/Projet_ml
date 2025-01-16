@@ -147,11 +147,12 @@ def main_analyze_model2(model_name, window_size):
     loaded_model = load(model_name)
 
     datasets = main_pre_processing2_log_close_price(data_name, window_size)
+    #datasets = main_pre_processing2_multivar(data_name, window_size)
 
     for data_type in ('TRAIN', 'VAL', 'TEST'):
         analyze(loaded_model, data_type, datasets, window_size)
 
-main_analyze_model2("test_preprocess2_Close_price_log_jaquart_dense64_dense2_WS7-dataset_raw_1d_2017_08_17_2025_01_08-100", 7)
+#main_analyze_model2("test_preprocess2_Close_price_log_jaquart_dense64_dense2_WS7-dataset_raw_1d_2017_08_17_2025_01_08-100", 7)
 
 
 

@@ -1,4 +1,4 @@
-from training_model import main_training_model
+from training_model import main_training_model, main_training_model_bayesian
 from pre_processing2 import main_pre_processing2_log_close_price, main_pre_processing2_multivar
 from pre_processing import main_pre_processing_log_close_price
 from analyze_model import main_analyze_model
@@ -58,6 +58,25 @@ def main2_multivar():
     main_training_model(full_model_name, X_train, y_train, X_val, y_val, WINDOW_SIZE, N_EPOCHS)
     main_analyze_model2(full_model_name, WINDOW_SIZE)
 
+def main2_bayesian():
+    WINDOW_SIZE = 7
+    N_EPOCHS = 100
+    data_name = "dataset_raw_1d_2017_08_17_2025_01_08"    
+
+    datasets = main_pre_processing2_log_close_price(data_name, WINDOW_SIZE)
+    
+    model_name = f"preprocess2_log_price_bayesian_WS{WINDOW_SIZE}"
+    full_model_name = model_name+'-'+data_name+'-'+str(N_EPOCHS)
+
+    X_train = datasets['TRAIN'][0][1]
+    y_train = datasets['TRAIN'][0][2]
+    
+    X_val = datasets['VAL'][0][1]
+    y_val = datasets['VAL'][0][2]
+    
+    main_training_model_bayesian(full_model_name, X_train, y_train, X_val, y_val, WINDOW_SIZE, N_EPOCHS)
+    main_analyze_model2(full_model_name, WINDOW_SIZE)
 
 
-main2_one_var()
+
+main2_bayesian()

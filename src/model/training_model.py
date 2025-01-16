@@ -1,5 +1,5 @@
 import os
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import LSTM, Input, Dense, Dropout
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.losses import MeanSquaredError
@@ -29,6 +29,45 @@ def prepare_model(name, n_features, window_size):
     
     return model
 
+
+def prepare_model_bayesian(name, n_features, window_size):
+    """
+    Bayesian Neural Network Model
+    """
+    # Input Layer
+    inputs = Input((window_size, n_features))
+    
+    # LSTM Layer
+    lstm_out = LSTM(256)(inputs)
+    
+    # Dropout Layer
+    lstm_out = Dropout(0.5)(lstm_out)
+    
+    # Bayesian Dense Layer 1
+    dense_bayesian_1 = tfpl.DenseVariational(
+        units=64,
+        activation='relu',
+        make_prior_fn=tfpl.default_multivariate_normal_fn,
+        make_posterior_fn=tfpl.default_mean_field_normal_fn,
+        kl_weight=1/window_size,  # KL divergence regularization
+    )(lstm_out)
+    
+    # Dropout Layer
+    dense_bayesian_1 = Dropout(0.2)(dense_bayesian_1)
+    
+    # Bayesian Dense Output Layer
+    outputs = tfpl.DenseVariational(
+        units=1,
+        make_prior_fn=tfpl.default_multivariate_normal_fn,
+        make_posterior_fn=tfpl.default_mean_field_normal_fn,
+        kl_weight=1/window_size,
+    )(dense_bayesian_1)
+    
+    # Model
+    model = Model(inputs=inputs, outputs=outputs, name=name)
+    return model
+
+
 def prepare_checkpoint(name):
     """
     """
@@ -55,5 +94,12 @@ def main_training_model(model_name, X_train, y_train, X_val, y_val, window_size,
 
     cp = prepare_checkpoint(name=model_name)
     model = prepare_model(name=model_name,n_features=X_train.shape[2], window_size=window_size)
+    model = train(model, 0.001)
+    model = fit(model, cp, X_train, y_train, X_val, y_val, N_EPOCHS)
+
+def main_training_model_bayesian(model_name, X_train, y_train, X_val, y_val, window_size, N_EPOCHS):
+
+    cp = prepare_checkpoint(name=model_name)
+    model = prepare_model_bayesian(name=model_name,n_features=X_train.shape[2], window_size=window_size)
     model = train(model, 0.001)
     model = fit(model, cp, X_train, y_train, X_val, y_val, N_EPOCHS)
